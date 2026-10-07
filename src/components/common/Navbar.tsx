@@ -8,7 +8,10 @@ import {
   Home as HomeIcon,
   Menu,
   X,
+  Download,
 } from 'lucide-react';
+import { usePWAInstall } from '../../hooks/usePWAInstall';
+import { IOSInstallModal } from './IOSInstallModal';
 
 export type NavTab = 'home' | 'evaluator' | 'automata' | 'testcases' | 'theory';
 
@@ -24,6 +27,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSyntaxModal,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const {
+    isInstallable,
+    promptInstall,
+    isIOSModalOpen,
+    setIsIOSModalOpen,
+  } = usePWAInstall();
 
   // Close mobile drawer on Escape key
   useEffect(() => {
@@ -146,8 +155,22 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
         </nav>
 
-        {/* Right Action (Desktop: Syntax Modal Button | Mobile: Syntax + Menu Hamburger) */}
+        {/* Right Action (Desktop: Install App + Syntax Modal | Mobile: Install + Syntax + Menu Hamburger) */}
         <div className="flex items-center gap-2 shrink-0">
+          {/* Subtle Install App Button (Visible only when installable) */}
+          {isInstallable && (
+            <button
+              onClick={promptInstall}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-950/70 hover:bg-indigo-900/90 text-indigo-300 hover:text-indigo-100 border border-indigo-700/60 text-xs font-mono transition-all shrink-0 shadow-xs focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
+              title="Install Regex Difference Evaluator as an app"
+              aria-label="Install App"
+            >
+              <Download className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="hidden sm:inline">Install App</span>
+              <span className="sm:hidden">Install</span>
+            </button>
+          )}
+
           <button
             onClick={onOpenSyntaxModal}
             className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-slate-100 border border-slate-800 text-xs font-mono transition-colors shrink-0 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
@@ -237,6 +260,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Theory & Documentation</span>
             </button>
 
+            {/* Mobile Drawer Install App Button */}
+            {isInstallable && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  promptInstall();
+                }}
+                className="flex items-center gap-2.5 w-full px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-950/80 to-sky-950/80 text-indigo-300 border border-indigo-700/60 hover:bg-indigo-900/60 transition-all font-semibold mt-1"
+                aria-label="Install Regex Difference Evaluator Application"
+              >
+                <Download className="w-4 h-4 text-indigo-400" />
+                <span>Install Application</span>
+              </button>
+            )}
+
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
@@ -250,6 +288,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </nav>
       )}
+
+      {/* iOS Safari Installation Guide Modal */}
+      <IOSInstallModal
+        isOpen={isIOSModalOpen}
+        onClose={() => setIsIOSModalOpen(false)}
+      />
     </header>
   );
 };

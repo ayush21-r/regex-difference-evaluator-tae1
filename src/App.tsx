@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Navbar, type NavTab } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { SyntaxCheatSheetModal } from './components/common/SyntaxCheatSheetModal';
+import { PWAUpdateNotification } from './components/common/PWAUpdateNotification';
 import { HomePage } from './pages/HomePage';
 import { EvaluatorPage } from './pages/EvaluatorPage';
 import { AutomataPage } from './pages/AutomataPage';
@@ -95,6 +96,9 @@ export function App() {
         isOpen={isSyntaxModalOpen}
         onClose={() => setIsSyntaxModalOpen(false)}
       />
+
+      {/* PWA Update Notification */}
+      <PWAUpdateNotification />
 
       {/* Footer */}
       <Footer />

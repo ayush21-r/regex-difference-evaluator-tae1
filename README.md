@@ -188,7 +188,8 @@ npm run build
 ```text
 regex-difference-evaluator/
 ├── public/
-│   └── _redirects              # Netlify SPA client routing rules
+│   ├── favicon.svg             # Application favicon icon
+│   └── icons.svg               # SVG glyph definitions
 ├── src/
 │   ├── algorithms/             # Pure Automata & Computational Theory Engine
 │   │   ├── types.ts            # AST, NFA, DFA, and Product Graph interfaces
@@ -222,18 +223,21 @@ regex-difference-evaluator/
 │   └── main.tsx                # Application DOM root
 ├── index.html                  # HTML5 entrypoint with SEO tags
 ├── start.bat                   # High-tech Windows console launcher
+├── vercel.json                 # Vercel SPA routing configuration
 ├── vite.config.ts              # Vite + React + Tailwind Vite configuration
 └── package.json                # Project dependencies and npm scripts
 ```
 
 ---
 
-## 🌐 Production Deployment (Netlify Ready)
+## 🌐 Production Deployment (Vercel Ready)
 
-The project is pre-configured for instant zero-configuration deployment to **Netlify**:
-1. **Build Command**: `npm run build`
-2. **Publish Directory**: `dist`
-3. Single-page client routing is handled automatically via `public/_redirects`.
+The project is pre-configured for instant zero-configuration deployment to **Vercel**:
+1. **Framework Preset**: `Vite`
+2. **Build Command**: `npm run build`
+3. **Output Directory**: `dist`
+4. **Install Command**: `npm install`
+5. Single-page client routing is handled automatically via `vercel.json`.
 
 ---
 
